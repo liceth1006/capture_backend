@@ -26,7 +26,7 @@ async def capture_screenshots(data: list) -> StreamingResponse:
         domain = urlparse(url).netloc.replace("www.", "")
         try:
             driver.get(url)
-            time.sleep(5)
+            time.sleep(4)
             screenshot = driver.get_screenshot_as_png()
             screenshots.append((f"{domain}.png", screenshot))
             print(f"Captura realizada: {domain}.png")

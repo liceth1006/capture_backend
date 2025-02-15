@@ -7,46 +7,47 @@ from reportlab.lib.pagesizes import A4
 from reportlab.platypus import SimpleDocTemplate, Image, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 from fastapi.responses import StreamingResponse
+from urllib.parse import urlparse
 import json
 import os
 import time
 from io import BytesIO
 import zipfile
 
-async def capture_screenshots(file):
+async def capture_screenshots(data: list) -> StreamingResponse:
     """Captura pantallas y genera PDFs con imágenes ajustadas a la página."""
     try:
-        # Leer y validar el archivo JSON
-        content = await file.read()
-        if not content:
-            raise ValueError("El archivo JSON está vacío.")
-        data = json.loads(content)
-
-        output_folder = "captures"
-        os.makedirs(output_folder, exist_ok=True)
-
         # Configurar navegador
         options = Options()
         options.add_argument("--headless")
         options.add_argument("--window-size=1920,1080")
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
+        screenshots = []
         pdf_files = []
-        max_width, max_height = 500, 700  # Tamaño máximo permitido para las imágenes en el PDF
+        max_width, max_height = 500, 700  
+
+        
+        output_dir = "/tmp/screenshots"
+        os.makedirs(output_dir, exist_ok=True)
 
         for item in data:
-            url = item.get("link")
+            url = item.get("url")
             if not url:
                 continue
 
-            domain = url.split("//")[-1].split("/")[0]
-            img_path = os.path.join(output_folder, f"{domain}.png")
-            pdf_path = os.path.join(output_folder, f"{domain}.pdf")
+            domain = urlparse(url).netloc.replace("www.", "")
 
             try:
                 # Capturar pantalla
                 driver.get(url)
-                time.sleep(7)  # Esperar a que cargue la página
+                time.sleep(3)  # Esperar a que cargue la página
+
+                # Definir las rutas para la imagen y el PDF
+                img_path = os.path.join(output_dir, f"{domain}_screenshot.png")
+                pdf_path = os.path.join(output_dir, f"{domain}_screenshot.pdf")
+
+                # Guardar captura de pantalla
                 if driver.save_screenshot(img_path):
                     print(f"✅ Captura guardada: {img_path}")
 
