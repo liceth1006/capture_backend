@@ -3,3 +3,4 @@ uvicorn
 selenium
 webdriver_manager
 python-multipart
+Pillow
