@@ -3,4 +3,4 @@ uvicorn
 selenium
 webdriver_manager
 python-multipart
-Pillow
+Pillow>=8.0.0
