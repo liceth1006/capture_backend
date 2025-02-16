@@ -7,7 +7,9 @@ app = FastAPI(title="Web Screenshot API")
 # Configuración de CORS
 origins = [
     "http://localhost:5173", 
-    "http://127.0.0.1:5173"
+    "http://127.0.0.1:5173",
+    "https://screenzip.vercel.app",
+    "https://screenzip-git-main-liceth-olmos-projects.vercel.app/"
 ]
 
 app.add_middleware(
