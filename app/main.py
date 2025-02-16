@@ -20,9 +20,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-
-# Incluir el router de capturas
 app.include_router(capture_router.router)
 
 @app.get("/")

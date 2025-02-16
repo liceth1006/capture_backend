@@ -45,7 +45,7 @@ async def capture_screenshots(data: list) -> StreamingResponse:
             try:
                 # Capturar pantalla
                 driver.get(url)
-                time.sleep(3)  # Esperar a que cargue la página
+                time.sleep(3)  
 
                 # Definir las rutas para la imagen y el PDF
                 img_path = os.path.join(output_dir, f"{domain}_screenshot.png")
@@ -55,7 +55,7 @@ async def capture_screenshots(data: list) -> StreamingResponse:
                 if driver.save_screenshot(img_path):
                     print(f"✅ Captura guardada: {img_path}")
 
-                    # Redimensionar imagen si es necesario
+                    
                     with PILImage.open(img_path) as img:
                         img_ratio = img.width / img.height
                         if img.width > max_width or img.height > max_height:
@@ -68,7 +68,7 @@ async def capture_screenshots(data: list) -> StreamingResponse:
                             img = img.resize((new_width, new_height))
                             img.save(img_path)
 
-                    # Crear PDF con imagen ajustada
+                   
                     doc = SimpleDocTemplate(pdf_path, pagesize=A4)
                     story = []
                     style = getSampleStyleSheet()["Title"]
