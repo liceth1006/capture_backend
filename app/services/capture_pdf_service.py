@@ -25,11 +25,9 @@ async def capture_screenshots(data: list) -> StreamingResponse:
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
         options.add_argument("--remote-debugging-port=9222")
-        options.binary_location = os.environ.get("CHROME_BIN", "/usr/bin/chromium")
-        driver = webdriver.Chrome(
-        service=Service(ChromeDriverManager().install()),
-        options=options
-        )
+        options.binary_location = "/usr/bin/chromium"
+
+        driver = webdriver.Chrome(service=Service(), options=options)
         pdf_files = []
         max_width, max_height = 500, 700  
 
