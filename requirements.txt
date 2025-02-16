@@ -3,4 +3,5 @@ uvicorn
 selenium
 webdriver_manager
 python-multipart
+reportlab
 Pillow>=8.0.0
